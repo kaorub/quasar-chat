@@ -8,7 +8,8 @@
   "private": true,
   "scripts": {
     "lint": "eslint --ext .js,.vue src",
-    "test": "echo \"No test specified\" && exit 0"
+    "test": "echo \"No test specified\" && exit 0",
+    "start": "cd server && npm i && node index.js && quasar build --mode cordova --target ios"
   },
   "dependencies": {
     "socket.io-client": "^2.2.0",

@@ -23,10 +23,5 @@
 
 export default {
   name: 'PageIndex',
-  data() {
-    return {
-      messages: [],
-    };
-  },
 };
 </script>

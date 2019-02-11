@@ -51,6 +51,7 @@
 </template>
 
 <script>
+/* fixme can be used to add rooms functionality */
 import io from 'socket.io-client';
 import createNameFromId from '../utils/createNameFromId';
 
@@ -66,7 +67,6 @@ export default {
   },
   methods: {
     openRoom: (user) => {
-      console.log('open room', user);
       this.socket.emit('join room', {
         name: user,
       });

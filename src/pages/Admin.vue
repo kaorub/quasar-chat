@@ -11,19 +11,18 @@
       fixed
       fixed-bottom
       v-model="message"
-      v-on:keyup.enter="send"
       type="textarea"
       float-label="Your message"
       :max-height="50"
       rows="3"
     />
     <q-btn
-      v-for="(message, index) in messages"
+      v-for="(user, index) in users"
       v-bind:key="index"
-      v-if="message.name !== 'admin'"
-      @click="sendToUser(message.name)"
+      v-if="user !== ''"
+      @click="sendToUser(user)"
       color="primary"
-      :label="`Ответить ${message.name}`"
+      :label="`Ответить ${user}`"
     />
   </q-page>
 </template>
@@ -33,32 +32,21 @@
 
 <script>
 import io from 'socket.io-client';
-import * as constants from '../constants/constants';
+import createNameFromId from '../utils/createNameFromId';
 
 export default {
   name: 'PageAdmin',
   data() {
     return {
+      adminSocketId: '',
       user: '',
+      users: [],
       message: '',
       messages: [],
       socket: io('localhost:3001'),
     };
   },
   methods: {
-    send(e) {
-      e.preventDefault();
-
-      this.socket.emit('send admin message', {
-        name: 'admin',
-        user: '',
-        admin: '',
-        avatar: constants.adminIconPath,
-        message: this.message.trim(),
-      });
-
-      this.message = '';
-    },
     sendToUser(name) {
       this.socket.emit('join room', {
         message: this.message,
@@ -78,8 +66,22 @@ export default {
       this.messages = [...this.messages, data];
     });
   },
+  created() {
+    this.users = [];
+
+    this.socket.on('addition of connected user', (userId) => {
+      this.users = [...this.users, createNameFromId(userId)]
+        .filter(user => user !== this.adminSocketId);
+      this.leftDrawerOpen = false;
+    });
+
+    this.socket.on('delete users', (userId) => {
+      this.users = this.users.filter(user => user !== userId);
+    });
+  },
   beforeDestroy() {
     this.messages = [];
+    this.users = [];
     this.socket.emit('operator logged out');
   },
 };

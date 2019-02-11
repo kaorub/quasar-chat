@@ -7,20 +7,19 @@ const server = app.listen(3001, function () {
 const io = require('socket.io')(server);
 
 io.on('connection', function(socket) {
-    console.log('user connected', socket.id);
-
     io.emit('addition of connected user', socket.id);
 
     const username = (socket.id).toString().substr(0, 5);
     const roomname = `room ${username}`;
     socket.join(roomname);
+    console.log('user connected to', roomname);
 
     const time = (new Date).toLocaleTimeString();
     
     socket.json.send({
         'event': 'connected',
-        'name': 'admin',
         'time': time,
+        'socketId': socket.id,
         'message': `Hello, ${username}! Please ask me anything you want`,
     });
 
@@ -41,7 +40,8 @@ io.on('connection', function(socket) {
 
     socket.on('join room', (data) => {
         socket.join(`room ${data.name}`);
-        console.log('user connected to room', data.name);
+        
+        console.log('admin connected to room', data.name);
 
         io.to(`room ${data.name}`).emit('send message to client', {
             ...data,
@@ -57,7 +57,7 @@ io.on('connection', function(socket) {
     });
 
     socket.on('disconnect', () => {
-        io.emit('delete users', socket.id);
+        io.emit('delete users', username);
         console.log('user disconnected');
       });
 });

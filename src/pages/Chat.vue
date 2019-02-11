@@ -30,11 +30,6 @@ import createNameFromId from '../utils/createNameFromId';
 
 export default {
   name: 'ChatIndex',
-  sockets: {
-    connect: () => {
-      console.log('socket connected');
-    },
-  },
   data() {
     return {
       user: '',
@@ -59,13 +54,15 @@ export default {
       this.message = '';
     },
   },
+  created() {
+    this.messages = [];
+  },
   mounted() {
     this.socket.on('send message to client', (data) => {
       this.messages = [...this.messages, data];
     });
 
     this.socket.on('connect', () => {
-      console.log(this.socket.id);
       this.name = createNameFromId(this.socket.id);
       this.user = this.socket.id;
     });

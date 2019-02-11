@@ -9,7 +9,7 @@ const routes = [
   },
   {
     path: '/admin',
-    component: () => import('layouts/AdminLayout.vue'),
+    component: () => import('layouts/UserLayout.vue'),
     children: [
       { path: '', component: () => import('pages/Admin.vue') },
     ],

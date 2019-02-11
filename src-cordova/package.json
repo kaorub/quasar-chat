@@ -10,6 +10,8 @@
     "author": "Apache Cordova Team",
     "license": "Apache-2.0",
     "dependencies": {
+        "cordova-android": "^7.1.4",
+        "cordova-ios": "^4.5.5",
         "cordova-osx": "^4.0.2",
         "cordova-plugin-whitelist": "^1.3.3"
     },
@@ -18,7 +20,9 @@
             "cordova-plugin-whitelist": {}
         },
         "platforms": [
-            "osx"
+            "osx",
+            "ios",
+            "android"
         ]
     }
 }

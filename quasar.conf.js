@@ -14,11 +14,6 @@ module.exports = function (ctx) {
     supportIE: false,
     build: {
       scopeHoisting: true,
-      // vueRouterMode: 'history',
-      // vueCompiler: true,
-      // gzip: true,
-      // analyze: true,
-      // extractCSS: false,
       extendWebpack (cfg) {
         cfg.module.rules.push({
           enforce: 'pre',
@@ -61,8 +56,6 @@ module.exports = function (ctx) {
       plugins: [
         'Notify'
       ]
-      // iconSet: ctx.theme.mat ? 'material-icons' : 'ionicons'
-      // i18n: 'de' // Quasar language
     },
     // animations: 'all' --- includes all animations
     animations: [],
@@ -70,8 +63,6 @@ module.exports = function (ctx) {
       pwa: false
     },
     pwa: {
-      // workboxPluginMode: 'InjectManifest',
-      // workboxOptions: {},
       manifest: {
         // name: 'Quasar App',
         // short_name: 'Quasar-PWA',
