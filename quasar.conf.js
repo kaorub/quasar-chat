@@ -2,7 +2,6 @@
 
 module.exports = function (ctx) {
   return {
-    // app plugins (/src/plugins)
     plugins: [
     ],
     css: [
@@ -10,10 +9,7 @@ module.exports = function (ctx) {
     ],
     extras: [
       ctx.theme.mat ? 'roboto-font' : null,
-      'material-icons' // optional, you are not bound to it
-      // 'ionicons',
-      // 'mdi',
-      // 'fontawesome'
+      'material-icons'
     ],
     supportIE: false,
     build: {

@@ -2,21 +2,21 @@
 const routes = [
   {
     path: '/',
-    component: () => import('layouts/MyLayout.vue'),
+    component: () => import('layouts/UserLayout.vue'),
     children: [
       { path: '', component: () => import('pages/Index.vue') },
     ],
   },
   {
     path: '/admin',
-    component: () => import('layouts/MyLayout.vue'),
+    component: () => import('layouts/AdminLayout.vue'),
     children: [
       { path: '', component: () => import('pages/Admin.vue') },
     ],
   },
   {
     path: '/chat',
-    component: () => import('layouts/MyLayout.vue'),
+    component: () => import('layouts/UserLayout.vue'),
     children: [
       { path: '', component: () => import('pages/Chat.vue') },
     ],

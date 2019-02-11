@@ -34,7 +34,6 @@
 <script>
 import io from 'socket.io-client';
 import * as constants from '../constants/constants';
-import createNameFromId from '../utils/createNameFromId';
 
 export default {
   name: 'PageAdmin',
@@ -69,21 +68,19 @@ export default {
     },
   },
   mounted() {
-    this.socket.on('send welcome message to client', (data, socketId) => {
-      this.socket.broadcast.emit('send admin message', {
-        name: 'admin',
-        user: createNameFromId(socketId),
-        admin: data.admin,
-        avatar: constants.adminIconPath,
-        message: `Hello, ${this.user}! Please ask me anything you want`,
-      });
-    });
     this.socket.on('message', (data) => {
       this.messages = [...this.messages, data];
     });
     this.socket.on('send message to admin', (data) => {
       this.messages = [...this.messages, data];
     });
+    this.socket.on('send message to client', (data) => {
+      this.messages = [...this.messages, data];
+    });
+  },
+  beforeDestroy() {
+    this.messages = [];
+    this.socket.emit('operator logged out');
   },
 };
 </script>

@@ -1,12 +1,17 @@
 <template>
   <q-page class="text-center">
+    <div class="q-display-1">Login</div>
     <q-btn-group>
-      <router-link to="/admin">
-        <q-btn color="secondary" @click="navigate">
-          Login as operator
+      <router-link to="/admin" class="q-pa-sm">
+        <q-btn color="primary">
+          as operator
         </q-btn>
       </router-link>
-      <router-link to="/chat">Login as user</router-link>
+      <router-link to="/chat" class="q-pa-sm">
+        <q-btn color="primary">
+          as user
+        </q-btn>
+      </router-link>
     </q-btn-group>
   </q-page>
 </template>
@@ -15,7 +20,6 @@
 </style>
 
 <script>
-import router from '../router/routes';
 
 export default {
   name: 'PageIndex',
@@ -23,11 +27,6 @@ export default {
     return {
       messages: [],
     };
-  },
-  methods: {
-    navigate() {
-      router.push({ name: 'ChatIndex' });
-    },
   },
 };
 </script>

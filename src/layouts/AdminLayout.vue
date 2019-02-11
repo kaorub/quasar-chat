@@ -32,18 +32,14 @@
         link
         inset-delimiter
       >
-        <q-list-header>Essential Links</q-list-header>
-        <q-item @click.native="router.push('admin')">
-          <q-item-side icon="school" />
-          <q-item-main label="Admin" sublabel="admin page" />
-        </q-item>
-        <q-item @click.native="openURL('http://forum.quasar-framework.org')">
-          <q-item-side icon="home" />
-          <q-item-main label="Home" />
-        </q-item>
-        <q-item @click.native="openURL('https://twitter.com/quasarframework')">
-          <q-item-side icon="rss feed" />
-          <q-item-main label="Twitter" sublabel="@quasarframework" />
+        <q-list-header>Users</q-list-header>
+        <q-item
+          v-for="(user, index) in users"
+          :key="index"
+          v-on:click="openRoom(user)"
+        >
+          <q-item-side icon="user" />
+          <q-item-main :label="user" />
         </q-item>
       </q-list>
     </q-layout-drawer>
@@ -55,17 +51,36 @@
 </template>
 
 <script>
-import { openURL } from 'quasar';
+import io from 'socket.io-client';
+import createNameFromId from '../utils/createNameFromId';
 
 export default {
-  name: 'MyLayout',
+  name: 'AdminLayout',
   data() {
     return {
+      user: '',
+      users: [],
       leftDrawerOpen: this.$q.platform.is.desktop,
+      socket: io('localhost:3001'),
     };
   },
   methods: {
-    openURL,
+    openRoom: (user) => {
+      console.log('open room', user);
+      this.socket.emit('join room', {
+        name: user,
+      });
+    },
+  },
+  created() {
+    this.socket.on('addition of connected user', (userId) => {
+      this.users = [...this.users, createNameFromId(userId)];
+      this.leftDrawerOpen = false;
+    });
+
+    this.socket.on('delete users', (userId) => {
+      this.users = this.users.filter(user => user !== userId);
+    });
   },
 };
 </script>

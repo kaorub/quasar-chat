@@ -73,6 +73,13 @@ export default {
     this.socket.on('message', (data) => {
       this.messages = [...this.messages, data];
     });
+
+    this.socket.on('clear all messages', () => {
+      this.messages = [];
+    });
+  },
+  beforeDestroy() {
+    this.messages = [];
   },
 };
 </script>
